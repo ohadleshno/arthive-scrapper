@@ -31,7 +31,7 @@ const parseProps = (propertiesElements) => {
   return props;
 };
 
-async function download_image(browser, link) {
+async function download_image(browser, link,picNumber) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });
   await page.goto(link);
@@ -58,7 +58,7 @@ async function download_image(browser, link) {
     $(".artwork-option__description", html)[0].children
   );
   console.log("downloading photo " + workName);
-  let workNameAsFileName = `${artistName}--${workName}`;
+  let workNameAsFileName = `${artistName}--${workName}--${picNumber}`;
   await downloadImage(imageLink, workNameAsFileName);
   await page.close();
 
@@ -89,6 +89,7 @@ const appendDataToFile = (appendData, fileName) => {
   try {
     const browser = await puppeteer.launch();
     let artData = [];
+    let picNumber= 0;
     let errorlinks = [];
     const someObject = require("./links4.json");
     let numberOfLinks = someObject.length;
@@ -98,7 +99,8 @@ const appendDataToFile = (appendData, fileName) => {
     for (const link of someObject) {
       numberOfLinksRead++;
       try {
-        const art = await download_image(browser, link);
+        const art = await download_image(browser, link,picNumber);
+        picNumber++;
         artData.push(art);
       } catch (e) {
         console.log(e);

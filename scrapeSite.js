@@ -73,9 +73,8 @@ async function download_image(browser, link) {
 const appendDataToFile = (appendData, fileName) => {
   return fs.readFile(fileName, async function (err, data) {
     const json = JSON.parse(data);
-    appendData.push(json);
-    console.log(appendData);
-    await fs.writeFile(fileName, JSON.stringify(appendData.flat()), function (
+    const dataTero = [...json,appendData];
+    await fs.writeFile(fileName, JSON.stringify(dataTero), function (
       err,
       result
     ) {

@@ -42,7 +42,9 @@ async function download_image(browser, link) {
     .split(" ")
     .join("-");
   const artistName = $(".link-dark.c_artist_popup_link", html)[0].children[0]
-    .data;
+    .data.replace(/([^a-zA-Z0-9\s])/gm, "")
+    .split(" ")
+    .join("-");
   const price = $(".item-cost", html)[0].children[0].data.slice(1);
   let $cImg = $(
     ".artwork-info-slider.susy-lg-8.susy-md-6.susy-sm-4.susy-xs-2",
@@ -88,7 +90,7 @@ const appendDataToFile = (appendData, fileName) => {
     const browser = await puppeteer.launch();
     let artData = [];
     let errorlinks = [];
-    const someObject = require("./links1.json");
+    const someObject = require("./links4.json");
     let numberOfLinks = someObject.length;
     let numberOfLinksRead = 0;
 
